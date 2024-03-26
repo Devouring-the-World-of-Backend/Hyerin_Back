@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, validator
-from typing import Union, Dict
+from typing import Union, Dict, Optional
 
 class Books(BaseModel):
     id: int 
@@ -28,6 +28,20 @@ async def newbooks(books: Books):
 @app.get("/books")
 async def allbooks():
     return FakeDB
+
+# 도서 검색 
+@app.get("/books/search")
+async def searchbooks(title: Optional[str] = None, author: Optional[str] = None, published_year: Optional[int] = None):
+    searched_books = []
+    for book in FakeDB.values():
+        if title and title not in book.title:
+            continue
+        if author and author not in book.author:
+            continue
+        if published_year and published_year != book.published_year:
+            continue
+        searched_books.append(book)
+    return searched_books
 
 # 특정 도서 조회
 @app.get("/books/{id}")
