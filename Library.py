@@ -46,7 +46,7 @@ async def searchbooks(title: Optional[str] = None, author: Optional[str] = None,
 # 특정 도서 조회
 @app.get("/books/{id}")
 async def readbooks(id: int):
-    return FakeDB[id].json()
+    return FakeDB[id]
 
 # 특정 도서 정보 업데이트
 @app.put("/books/{id}")
