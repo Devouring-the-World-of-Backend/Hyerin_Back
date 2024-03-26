@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, validator
 from typing import Union, Dict
 
@@ -37,11 +37,15 @@ async def readbooks(id: int):
 # 특정 도서 정보 업데이트
 @app.put("/books/{id}")
 async def updatebooks(id:int, books: Books):
+    if id not in FakeDB:
+        raise HTTPException(status_code = 404, detail = "해당하는 도서를 찾을 수 없습니다.")
     FakeDB[id] = books
     return {f"{books.title}의 정보가 변경되었습니다."}
 
 # 특정 도서 삭제
 @app.delete("/books/{id}")
 async def deletebooks(id: int):
+    if id not in FakeDB:
+        raise HTTPException(status_code = 404, detail = "해당하는 도서를 찾을 수 없습니다.")
     del FakeDB[id]
     return {"성공적으로 삭제되었습니다."}
