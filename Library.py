@@ -37,7 +37,7 @@ async def newbooks(books: Books):
         raise ExistBookException()
     else:
         FakeDB[books.id] = books
-        raise HTTPException(status_code = 201, detail = '성공적으로 추가되었습니다')
+        raise HTTPException(status_code = 201, detail = '성공적으로 추가되었습니다.')
 
 # 모든 도서 목록 반환
 @app.get("/books")

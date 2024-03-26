@@ -6,11 +6,11 @@ client = TestClient(app)
 # 도서 추가 test
 def test_newbooks():
     response = client.post("/books", json={
-        "id": 1
-        "title": "testcase"
-        "author": "Lee"
-        "description": "Alright?"
-        "published_year": 2024
+        "id": 1,
+        "title": "testcase",
+        "author": "Lee",
+        "description": "Alright?",
+        "published_year": 2024,
     })
     assert response.status_code == 201
     assert response.json() == {"detail": "성공적으로 추가되었습니다."}
@@ -18,11 +18,11 @@ def test_newbooks():
 # ExistBookException test - 도서 추가
 def test_ExistBookException():
     response = client.post("/books", json={
-        "id": 1
-        "title": "testcase"
-        "author": "Lee"
-        "description": "Alright?"
-        "published_year": 2024
+        "id": 1,
+        "title": "testcase",
+        "author": "Lee",
+        "description": "Alright?",
+        "published_year": 2024,
     })
     assert response.status_code == 400
     assert response.json() == {"이미 존재하는 도서입니다."}
@@ -54,10 +54,10 @@ def test_readbooks():
 # 특정 도서 정보 업데이트 test
 def test_updatebooks():
     response = client.put("/books/1", json={
-        "id": 1
-        "title": "testcase_2"
-        "author": "Kim"
-        "description": "Updated?"
+        "id": 1,
+        "title": "testcase_2",
+        "author": "Kim",
+        "description": "Updated?",
         "published_year": 2024
     })
     assert response.status_code == 201
@@ -65,6 +65,6 @@ def test_updatebooks():
 
 # 특정 도서 삭제 test
 def test_deletebooks():
-    response = client.delte("/books/1")
+    response = client.delete("/books/1")
     assert response.status_code == 201
     assert response.json() == {"detail": "성공적으로 삭제되었습니다."}
