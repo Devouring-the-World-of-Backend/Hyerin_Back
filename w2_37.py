@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 
 class Book(BaseModel):
-    id: int
+    id: int 
     title:str
-    author: str
-    description: str
-    published_year: int
+    author: str | None = None
+    description: str | None = None
+    published_year: int | None = None
