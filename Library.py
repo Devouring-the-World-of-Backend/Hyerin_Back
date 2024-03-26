@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel, validator
 from typing import Union, Dict, Optional
+from fastapi.middleware.cors import CORSMiddleware
 
 class Books(BaseModel):
     id: int 
@@ -29,6 +30,15 @@ class ExistBookException(Exception):
 
 app = FastAPI()
 FakeDB: Dict[int, Books] = {}
+
+# CORS 미들웨어 추가
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["*"],  
+    allow_headers=["*"],  
+)
 
 # 도서 추가
 @app.post("/books")
