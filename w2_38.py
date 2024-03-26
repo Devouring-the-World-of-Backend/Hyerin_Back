@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 from typing import Union, Dict
 
 class Books(BaseModel):
@@ -8,6 +8,12 @@ class Books(BaseModel):
     author: str | None = None
     description: str | None = None
     published_year: int | None = None
+
+    # 데이터 검증
+    @validator('published_year')
+    def yearcheck(cls, v):
+        if v > 2024:
+            raise ValueError('publisehd_year는 현재보다 미래일 수 없습니다.')
 
 app = FastAPI()
 FakeDB: Dict[int, Books] = {}
@@ -26,7 +32,7 @@ async def allbooks():
 # 특정 도서 조회
 @app.get("/books/{id}")
 async def readbooks(id: int):
-    return FakeDB[id]
+    return FakeDB[id].json()
 
 # 특정 도서 정보 업데이트
 @app.put("/books/{id}")
