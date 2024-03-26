@@ -21,8 +21,11 @@ FakeDB: Dict[int, Books] = {}
 # 도서 추가
 @app.post("/books")
 async def newbooks(books: Books):
-    FakeDB[books.id] = books
-    raise HTTPException(status_code = 201, detail = '성공적으로 추가되었습니다')
+    if FakeDB[books.id]:
+        raise HTTPException(status_code = 400, detail = "이미 존재하는 도서입니다.")
+    else:
+        FakeDB[books.id] = books
+        raise HTTPException(status_code = 201, detail = '성공적으로 추가되었습니다')
 
 # 모든 도서 목록 반환
 @app.get("/books")
