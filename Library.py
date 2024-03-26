@@ -43,7 +43,7 @@ app.add_middleware(
 # 도서 추가
 @app.post("/books")
 async def newbooks(books: Books):
-    if FakeDB[books.id]:
+    if books.id in FakeDB:
         raise ExistBookException()
     else:
         FakeDB[books.id] = books
@@ -73,7 +73,7 @@ async def searchbooks(title: Optional[str] = None, author: Optional[str] = None,
 # 특정 도서 조회
 @app.get("/books/{id}")
 async def readbooks(id: int):
-    if not FakeDB[id]:
+    if id not in  FakeDB[id]:
         raise NoBookException()
     return FakeDB[id]
 
